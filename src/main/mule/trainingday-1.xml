@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3f544725-6179-4f90-9e71-7ccafeb9bd96" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="trainingday-1Flow" doc:id="63375f59-e77d-4c33-b6ff-6cd50b61753c" >
+		<http:listener doc:name="Listener" doc:id="b0f45b77-b784-4614-870f-9d146b77ca90" config-ref="HTTP_Listener_config" path="/training"/>
+		<ee:transform doc:name="Transform Message" doc:id="299dfb86-78b4-4b0e-9530-cdfa1a7fdc2d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+(
+	"parent":"sagarika"
+)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="GET" doc:name="Request" doc:id="8aba21d8-c790-4739-8438-2a546b2b6d61" url="http://localhost:8082/training"/>
+	</flow>
+</mule>
